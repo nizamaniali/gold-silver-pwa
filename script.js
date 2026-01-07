@@ -1,48 +1,59 @@
 const buyPrice = document.getElementById("buyPrice");
-const quantity = document.getElementById("quantity");
+const amount = document.getElementById("amount");
 const currentPrice = document.getElementById("currentPrice");
 const metal = document.getElementById("metal");
 const result = document.getElementById("result");
 const installBtn = document.getElementById("installBtn");
 
+const TOLA_GRAMS = 11.66;
+
 // Load saved data
 window.onload = () => {
   buyPrice.value = localStorage.getItem("buyPrice") || "";
-  quantity.value = localStorage.getItem("quantity") || "";
+  amount.value = localStorage.getItem("amount") || "";
   currentPrice.value = localStorage.getItem("currentPrice") || "";
-  metal.value = localStorage.getItem("metal") || "Gold";
+  metal.value = localStorage.getItem("metal") || "Silver";
 };
 
 // Save data
 function saveData() {
   localStorage.setItem("buyPrice", buyPrice.value);
-  localStorage.setItem("quantity", quantity.value);
+  localStorage.setItem("amount", amount.value);
   localStorage.setItem("currentPrice", currentPrice.value);
   localStorage.setItem("metal", metal.value);
 }
 
 function calculate() {
-  const bp = parseFloat(buyPrice.value);
-  const qty = parseFloat(quantity.value);
-  const cp = parseFloat(currentPrice.value);
+  const purchasePerTola = parseFloat(buyPrice.value);
+  const investedAmount = parseFloat(amount.value);
+  const currentPerTola = parseFloat(currentPrice.value);
 
-  if (isNaN(bp) || isNaN(qty) || isNaN(cp)) {
+  if (
+    isNaN(purchasePerTola) ||
+    isNaN(investedAmount) ||
+    isNaN(currentPerTola)
+  ) {
     result.innerHTML = "Please enter all values correctly.";
     return;
   }
 
   saveData();
 
-  const invested = bp * qty;
-  const current = cp * qty;
-  const diff = current - invested;
-  const status = diff >= 0 ? "Profit" : "Loss";
+  // Core bullion logic
+  const tolasOwned = investedAmount / purchasePerTola;
+  const gramsOwned = tolasOwned * TOLA_GRAMS;
+  const currentWorth = tolasOwned * currentPerTola;
+  const profitLoss = currentWorth - investedAmount;
+
+  const status = profitLoss >= 0 ? "Profit" : "Loss";
 
   result.innerHTML = `
-    <strong>${metal.value} Summary</strong><br>
-    Invested: Rs ${invested.toFixed(2)}<br>
-    Current Value: Rs ${current.toFixed(2)}<br>
-    ${status}: Rs ${diff.toFixed(2)}
+    <strong>${metal.value} Investment Summary</strong><br>
+    Tolas Owned: ${tolasOwned.toFixed(4)}<br>
+    Grams Owned: ${gramsOwned.toFixed(2)} g<br>
+    Invested Amount: Rs ${investedAmount.toFixed(2)}<br>
+    Current Value: Rs ${currentWorth.toFixed(2)}<br>
+    ${status}: Rs ${profitLoss.toFixed(2)}
   `;
 }
 
