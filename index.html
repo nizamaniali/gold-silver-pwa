@@ -16,22 +16,21 @@
     <h2>Gold / Silver Calculator</h2>
 
     <label>Metal Type</label>
-    <select id="metal">
-      <option value="Gold">Gold</option>
-      <option value="Silver">Silver</option>
-    </select>
+<select id="metal">
+  <option value="Silver">Silver</option>
+  <option value="Gold">Gold</option>
+</select>
 
-    <label>Purchase Price (per gram)</label>
-    <input type="number" id="buyPrice" placeholder="e.g. 18000">
+<label>Purchase Price (per Tola – 11.66g)</label>
+<input type="number" id="buyPrice" placeholder="e.g. 9100">
 
-    <label>Quantity (grams)</label>
-    <input type="number" id="quantity" placeholder="e.g. 10">
+<label>Amount Purchased (Rs)</label>
+<input type="number" id="amount" placeholder="e.g. 73000">
 
-    <label>Current Market Price (per gram)</label>
-    <input type="number" id="currentPrice" placeholder="e.g. 19500">
+<label>Current Market Price (per Tola – 11.66g)</label>
+<input type="number" id="currentPrice" placeholder="e.g. 9500">
 
-    <button onclick="calculate()">Calculate</button>
-
+<button onclick="calculate()">Calculate</button>
     <button id="installBtn" style="display:none;">Install App</button>
 
     <div class="result" id="result"></div>
